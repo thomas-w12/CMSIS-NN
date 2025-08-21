@@ -21,8 +21,8 @@
  * Title:        arm_nn_transpose_conv_row_s8_s32
  * Description:  Transpose covolution help function.
  *
- * $Date:        22 Oct 2024
- * $Revision:    V.1.0.0
+ * $Date:        20 Aug 2025
+ * $Revision:    V.1.0.1
  *
  * Target :  Arm(R) M-Profile Architecture
  *
@@ -128,7 +128,7 @@ arm_cmsis_nn_status arm_nn_transpose_conv_row_s8_s32(const int8_t *lhs,
                         result3 = SMLAD(lhs31, rhs1, result3);
                     }
 
-                    for (int32_t i = 0; i < (input_channels & 0b11); i++)
+                    for (int32_t i = 0; i < (input_channels & 3); i++)
                     {
                         const int8_t *lhs_temp = lhs_ptr0;
                         const int32_t lhs_val00 = *lhs_temp + lhs_offset;
@@ -234,7 +234,7 @@ arm_cmsis_nn_status arm_nn_transpose_conv_row_s8_s32(const int8_t *lhs,
                     }
 
                     // Input channel tail-handling
-                    if (input_channels & 0b1)
+                    if (input_channels & 1)
                     {
                         const int8_t *lhs_temp = lhs_ptr0;
                         const int32_t lhs_val00 = *lhs_temp;
@@ -282,7 +282,7 @@ arm_cmsis_nn_status arm_nn_transpose_conv_row_s8_s32(const int8_t *lhs,
     }
 
     // Input column tail handling
-    if (input_count & 0b10)
+    if (input_count & 2)
     {
         const int8_t *rhs_ptr = rhs;
 
@@ -329,7 +329,7 @@ arm_cmsis_nn_status arm_nn_transpose_conv_row_s8_s32(const int8_t *lhs,
                         result1 = SMLAD(lhs11, rhs1, result1);
                     }
 
-                    for (int32_t i = 0; i < (input_channels & 0b11); i++)
+                    for (int32_t i = 0; i < (input_channels & 3); i++)
                     {
                         const int8_t *lhs_temp = lhs_ptr0;
                         const int32_t lhs_val00 = *lhs_temp + lhs_offset;
@@ -413,7 +413,7 @@ arm_cmsis_nn_status arm_nn_transpose_conv_row_s8_s32(const int8_t *lhs,
         lhs += 2 * input_channels;
     }
 
-    if (input_count & 0b1)
+    if (input_count & 1)
     {
         const int8_t *rhs_ptr = rhs;
 
@@ -452,7 +452,7 @@ arm_cmsis_nn_status arm_nn_transpose_conv_row_s8_s32(const int8_t *lhs,
                         result0 = SMLAD(lhs01, rhs1, result0);
                     }
 
-                    for (int32_t i = 0; i < (input_channels & 0b11); i++)
+                    for (int32_t i = 0; i < (input_channels & 3); i++)
                     {
                         const int8_t *lhs_temp = lhs_ptr0;
                         const int32_t lhs_val00 = *lhs_temp + lhs_offset;

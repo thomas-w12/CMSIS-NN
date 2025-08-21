@@ -109,6 +109,24 @@
         #define __RESTRICT __restrict
     #endif
 
+#elif defined(__ghs__)
+
+    #ifndef __ASM
+        #define __ASM __asm
+    #endif
+    #ifndef __INLINE
+        #define __INLINE inline
+    #endif
+    #ifndef __STATIC_INLINE
+        #define __STATIC_INLINE static inline
+    #endif
+    #ifndef __STATIC_FORCEINLINE
+        #define __STATIC_FORCEINLINE __attribute__((always_inline)) static inline
+    #endif
+    #ifndef __RESTRICT
+        #define __RESTRICT restrict
+    #endif
+
 #else
 
     #error Unsupported compiler. Add support as needed
@@ -140,6 +158,11 @@
 
 #if defined(__GNUC__)
     #include <stdint.h>
+#endif
+
+#if defined(__ghs__)
+    // Include GHS specific header for compiler intrinsics
+    #include <arm_ghs.h>
 #endif
 
 /**
@@ -178,6 +201,8 @@ __STATIC_FORCEINLINE uint8_t CLZ(uint32_t value)
     }
     return __builtin_clz(value);
 }
+#elif defined(__ghs__)
+    #define CLZ __CLZ32
 #endif
 
 // ACLE intrinsics under groups __ARM_FEATURE_QBIT, __ARM_FEATURE_DSP , __ARM_FEATURE_SAT, __ARM_FEATURE_SIMD32
